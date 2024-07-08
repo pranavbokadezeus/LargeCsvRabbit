@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit\\Send\\Send.csproj": {}
+    "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Send\\Send.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit\\Send\\Send.csproj": {
+    "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Send\\Send.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit\\Send\\Send.csproj",
+        "projectUniqueName": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Send\\Send.csproj",
         "projectName": "Send",
-        "projectPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit\\Send\\Send.csproj",
+        "projectPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Send\\Send.csproj",
         "packagesPath": "C:\\Users\\pranav.bokade\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit\\Send\\obj\\",
+        "outputPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Send\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pranav.bokade\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,6 +63,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.27.0, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[9.0.0, )"
@@ -70,6 +74,14 @@
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.3.7, )"
+            },
+            "Polly": {
+              "target": "Package",
+              "version": "[8.4.1, )"
+            },
+            "Polly.Contrib.WaitAndRetry": {
+              "target": "Package",
+              "version": "[1.1.1, )"
             },
             "RabbitMQ.Client": {
               "target": "Package",
