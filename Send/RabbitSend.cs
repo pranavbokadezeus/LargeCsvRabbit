@@ -12,6 +12,8 @@ using Send.Services;
 
 
 public class RabbitSend {
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
     static async Task Main(string[] args) {
 
         var factory = new ConnectionFactory { HostName = "localhost" };
@@ -20,7 +22,8 @@ public class RabbitSend {
             .Or<IOException>()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -44,7 +47,7 @@ public class RabbitSend {
                 var Fid = part[2];
                 
                 Console.WriteLine($" [x] Received {filePath}");
-
+                log.Info($"received file from queue with Uid: {Uid} & Fid: {Fid}");
                 await ProcessFile(filePath, Uid, Fid);
             };
             channel.BasicConsume(queue: "file_uploads",
@@ -72,7 +75,8 @@ public class RabbitSend {
             .Handle<IOException>()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -93,7 +97,8 @@ public class RabbitSend {
                         models.Add(line.ToCsvData());
                     }
                     catch (Exception ex) {
-                        Console.WriteLine($"Error parsing line: {line}. Exception: {ex.Message}");
+                        log.Error($"Error parsing line: {line}. Exception: {ex.Message}");
+                        // Console.WriteLine($"Error parsing line: {line}. Exception: {ex.Message}");
                     }
                 }
             }
@@ -150,7 +155,8 @@ public class RabbitSend {
             .Or<IOException>()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -169,7 +175,8 @@ public class RabbitSend {
                                 routingKey: "batch_uploads",
                                 basicProperties: null,
                                 body: message);
-
+            
+            log.Info($" [x] Sent batch of size {batch.Count} to batch_uploads");
             Console.WriteLine($" [x] Sent batch of size {batch.Count} to batch_uploads");
         });
     }

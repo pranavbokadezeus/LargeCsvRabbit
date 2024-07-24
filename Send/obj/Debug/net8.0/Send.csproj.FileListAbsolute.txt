@@ -171,3 +171,5 @@ C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\Large
 C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\LargeCsvRabbit\LargeCsvRabbit\Send\obj\Debug\net8.0\Send.pdb
 C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\LargeCsvRabbit\LargeCsvRabbit\Send\obj\Debug\net8.0\Send.genruntimeconfig.cache
 C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\LargeCsvRabbit\LargeCsvRabbit\Send\obj\Debug\net8.0\ref\Send.dll
+C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\LargeCsvRabbit\LargeCsvRabbit\Send\bin\Debug\net8.0\log4net.dll
+C:\Users\pranav.bokade\Desktop\Pranav\asp .net\Projects\LargeCsvGit - Copy\LargeCsvRabbit\LargeCsvRabbit\Send\bin\Debug\net8.0\Send.dll.config

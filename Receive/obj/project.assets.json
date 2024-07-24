@@ -130,6 +130,22 @@
           }
         }
       },
+      "log4net/2.0.17": {
+        "type": "package",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -2120,6 +2136,32 @@
         "lib/netstandard2.0/K4os.Hash.xxHash.xml",
         "lib/netstandard2.1/K4os.Hash.xxHash.dll",
         "lib/netstandard2.1/K4os.Hash.xxHash.xml"
+      ]
+    },
+    "log4net/2.0.17": {
+      "sha512": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+      "type": "package",
+      "path": "log4net/2.0.17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/log4net.dll",
+        "lib/net20/log4net.xml",
+        "lib/net35/log4net.dll",
+        "lib/net35/log4net.xml",
+        "lib/net40-client/log4net.dll",
+        "lib/net40-client/log4net.xml",
+        "lib/net40/log4net.dll",
+        "lib/net40/log4net.xml",
+        "lib/net45/log4net.dll",
+        "lib/net45/log4net.xml",
+        "lib/netstandard1.3/log4net.dll",
+        "lib/netstandard1.3/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.2.0.17.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
       ]
     },
     "Microsoft.AspNetCore.Authentication.Abstractions/2.2.0": {
@@ -5925,7 +5967,8 @@
       "MySqlConnector >= 2.3.7",
       "Polly >= 8.4.1",
       "Polly.Contrib.WaitAndRetry >= 1.1.1",
-      "RabbitMQ.Client >= 6.8.1"
+      "RabbitMQ.Client >= 6.8.1",
+      "log4net >= 2.0.17"
     ]
   },
   "packageFolders": {
@@ -5934,11 +5977,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\Receive.csproj",
+      "projectUniqueName": "c:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\Receive.csproj",
       "projectName": "Receive",
-      "projectPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\Receive.csproj",
+      "projectPath": "c:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\Receive.csproj",
       "packagesPath": "C:\\Users\\pranav.bokade\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\obj\\",
+      "outputPath": "c:\\Users\\pranav.bokade\\Desktop\\Pranav\\asp .net\\Projects\\LargeCsvGit - Copy\\LargeCsvRabbit\\LargeCsvRabbit\\Receive\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pranav.bokade\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -6013,6 +6056,10 @@
           "RabbitMQ.Client": {
             "target": "Package",
             "version": "[6.8.1, )"
+          },
+          "log4net": {
+            "target": "Package",
+            "version": "[2.0.17, )"
           }
         },
         "imports": [

@@ -14,6 +14,9 @@ using Receive.Models;
 public class RabbitReceive {
     private static readonly string _connectionString = "Server=localhost;Database=largedatasetdb;User=root;Password=root;AllowUserVariables=True;UseAffectedRows=False";
 
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
     private static StatusService statusService;
 
     static RabbitReceive() {
@@ -33,7 +36,8 @@ public class RabbitReceive {
             .Or<IOException>()
             .WaitAndRetryAsync(delay,  (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -58,6 +62,7 @@ public class RabbitReceive {
                 var Fid = part[2];
                 var Bid = part[3];
 
+                log.Info($" [x] Received batch of size {batchData.Length} from batch_uploads");
                 Console.WriteLine($" [x] Received batch of size {batchData.Length} from batch_uploads");
 
                 var batch = JsonSerializer.Deserialize<List<Employee>>(batchData);
@@ -107,7 +112,8 @@ public class RabbitReceive {
             .Handle<MySqlException>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -126,17 +132,18 @@ public class RabbitReceive {
                     {
                         await myCmd.ExecuteNonQueryAsync();
                         await transaction.CommitAsync();
-                        Console.WriteLine(Bid);
+                        // Console.WriteLine(Bid);
                         await statusService.UpdateBatchAsync(Uid, Fid, Bid, "Completed");
 
                         await statusService.UpdateBatchCount(Uid, Fid);
-                        Console.WriteLine("Batch processed successfully");
+                        // Console.WriteLine("Batch processed successfully");
                          
 
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                        log.Error(e.Message);
+                        // Console.WriteLine(e);
                         await transaction.RollbackAsync();
                         await statusService.UpdateBatchAsync(Uid, Fid, Bid, "Error");
                     }

@@ -12,6 +12,9 @@ public class StatusService
 {
     private readonly IMongoCollection<StatusModel> _statusCollection;
 
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
     public StatusService()
     {
         var mongoClient = new MongoClient("mongodb://pranav:root@localhost:27017");
@@ -23,34 +26,6 @@ public class StatusService
 
 
 
-    // public async Task UpdateBatchAsync(string Uid, string Fid, string Bid, string updatedStatus) {
-    //      var retryPolicy = Policy
-    //         .Handle<Exception>()
-    //         .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
-    //         {
-    //             Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
-    //         });
-    //     await retryPolicy.ExecuteAsync(async () => {
-    //     try {
-    //         var filter =
-    //             Builders<StatusModel>.Filter.Eq(s => s.UId, Uid) &
-    //             Builders<StatusModel>.Filter.Eq(s => s.FId, Fid) &
-    //             Builders<StatusModel>.Filter.ElemMatch(s => s.Batches, b => b.BId == Bid);
-    
-    //         var update = Builders<StatusModel>.Update.Set("Batches.$.BatchStatus", updatedStatus);
-    //         Console.WriteLine("=====");
-    //         Console.WriteLine(Bid);
-    //         Console.WriteLine("=====");
-    //         var result = await _statusCollection.UpdateOneAsync(filter, update);
-            
-    //     }
-    //     catch(Exception e) {
-    //         Console.WriteLine(e.Message);
-    //         return;
-    //     }
-    //     });
-    // }
-
     public async Task UpdateBatchAsync(string Uid, string Fid, string Bid, string updatedStatus) {
     
         
@@ -58,7 +33,8 @@ public class StatusService
             .Handle<Exception>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -74,16 +50,18 @@ public class StatusService
             
 
                 if (result.MatchedCount > 0)
-                    {
-                        Console.WriteLine($"Successfully updated batch status for UId: {Uid}, FId: {Fid}, BId: {Bid}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("-------------------------------------------------------------------------------------------------");
-                        throw new Exception($"Failed to update batch status : No document found with UId: {Uid}, FId: {Fid}, and BId: {Bid}");
-                    }
-                } catch (Exception e) {
-                Console.WriteLine(e.Message);
+                {
+                    log.Info($"Successfully updated batch status to {updatedStatus} for UId: {Uid}, FId: {Fid}, BId: {Bid}");
+                    // Console.WriteLine($"Successfully updated batch status for UId: {Uid}, FId: {Fid}, BId: {Bid}");
+                }
+                else
+                {
+                    // Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                    throw new Exception($"Failed to update batch status : No document found with UId: {Uid}, FId: {Fid}, and BId: {Bid}");
+                }
+            } catch (Exception e) {
+                log.Error(e.Message);
+                // Console.WriteLine(e.Message);
                 throw;
             }
          });
@@ -103,7 +81,8 @@ public class StatusService
             .Handle<Exception>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -118,16 +97,18 @@ public class StatusService
 
                     if (result.MatchedCount > 0)
                     {
-                        Console.WriteLine($"Successfully updated batch Count for UId: {uid}, FId: {fid}");
+                        log.Info($"Successfully updated batch Count for UId: {uid}, FId: {fid}");
+                        // Console.WriteLine($"Successfully updated batch Count for UId: {uid}, FId: {fid}");
                     }
                     else
                     {
-                        Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                        // Console.WriteLine("###################################################################################");
                         throw new Exception($"Failed update batch count : No document found with UId: {uid}, FId: {fid}");
                     }
         }
         catch(Exception e) {
-            Console.WriteLine(e.Message);
+            log.Error(e.Message);
+            // Console.WriteLine(e.Message);
             throw;
         }
 
@@ -142,7 +123,8 @@ public class StatusService
             .Handle<Exception>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -158,7 +140,8 @@ public class StatusService
     
             if (document == null)
             {
-                Console.WriteLine($"No document found with UId: {uid} and FId: {fid}");
+                log.Error($"No document found with UId: {uid} and FId: {fid}");
+                // Console.WriteLine($"No document found with UId: {uid} and FId: {fid}");
                 
                 return;
             }
@@ -202,11 +185,12 @@ public class StatusService
     
                 if (updateResult.MatchedCount > 0)
                 {
-                    Console.WriteLine($"Successfully updated status for UId: {uid} and FId: {fid}");
+                    log.Info($"Successfully updated status for UId: {uid} and FId: {fid}");
+                    // Console.WriteLine($"Successfully updated status for UId: {uid} and FId: {fid}");
                 }
                 else
                 {
-                    Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                    // Console.WriteLine("=========================================================================");
                     throw new Exception($"Failed to update _Completed_ status for UId: {uid} and FId: {fid}");
 
                 }
@@ -214,8 +198,9 @@ public class StatusService
         }
         catch (Exception e)
         {
-            Console.WriteLine("-------------------------------------------------------------------------------------------------");
-            Console.WriteLine($"Error occurred while updating status: {e.Message}");
+            // Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            log.Error($"Error occurred while updating status: {e.Message}");
+            // Console.WriteLine($"Error occurred while updating status: {e.Message}");
             throw;
         }
 

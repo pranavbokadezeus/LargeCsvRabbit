@@ -8,6 +8,8 @@ namespace Send.Services;
 public class StatusService
 {
     private readonly IMongoCollection<StatusModel> _statusCollection;
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
     public StatusService()
     {
@@ -27,7 +29,8 @@ public class StatusService
             .Handle<Exception>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -41,18 +44,20 @@ public class StatusService
                 var result = await _statusCollection.UpdateOneAsync(filter, update);
                 if (result.MatchedCount > 0)
                 {
-                    Console.WriteLine($"Successfully added batch for UId: {uid}, FId: {fid}");
+                    log.Info($"Successfully added batch for UId: {uid}, FId: {fid}");
+                    // Console.WriteLine($"Successfully added batch for UId: {uid}, FId: {fid}");
                 }
                 else
                 {
-                    Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                    // Console.WriteLine("-------------------------------------------------------------------------------------------------");
                     throw new Exception($"Failed add batch : No document found with UId: {uid}, FId: {fid}");
                 }
                 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                log.Error(e.Message);
+                // Console.WriteLine(e.Message);
                 throw;
             }
 
@@ -65,7 +70,8 @@ public class StatusService
             .Handle<Exception>()
             .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
             {
-                Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                log.Warn($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
+                // Console.WriteLine($"Retry {retryCount} encountered an error: {exception.Message}. Waiting {timeSpan} before next retry.");
             });
 
         await retryPolicy.ExecuteAsync(async () =>
@@ -80,17 +86,19 @@ public class StatusService
                 var result1 = await _statusCollection.UpdateOneAsync(filter, update1);
                 if (result.MatchedCount > 0)
                 {
-                    Console.WriteLine($"Successfully updated file status for UId: {Uid}, FId: {Fid}");
+                    log.Info($"Successfully updated file status as {updatedStatusModel.Status} for UId: {Uid}, FId: {Fid}");
+                    // Console.WriteLine($"Successfully updated file status for UId: {Uid}, FId: {Fid}");
                 }
                 else
                 {
-                    Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                    // Console.WriteLine("-------------------------------------------------------------------------------------------------");
                     throw new Exception($"Failed updated file totalBatches : No document found with UId: {Uid}, FId: {Fid}");
                 }
 
             }
             catch(Exception e)       {
-                Console.WriteLine(e.Message);
+                log.Error(e.Message);
+                // Console.WriteLine(e.Message);
                 throw;
             }
         });
